@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  baget-helm-chart:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-16T17:34:55.466795647-03:00"
+    description: A Helm chart for Kubernetes
+    digest: 6282538191ae97deab2ee9ff94e298e6e3bec7c8dde4c580368cc7002b1d1abb
+    icon: https://icons.iconarchive.com/icons/google/noto-emoji-food-drink/256/32373-baguette-bread-icon.png
+    name: baget-helm-chart
+    type: application
+    urls:
+    - https://alessandro11.github.io/helm-charts/baget-helm-chart-1.0.0.tgz
+    version: 1.0.0
+generated: "2023-01-16T17:34:55.466375013-03:00"
