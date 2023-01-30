@@ -37,3 +37,41 @@ Get a hostname from URL
 {{- define "hostname" -}}
 {{- . | trimPrefix "http://" |  trimPrefix "https://" | trimSuffix "/" | quote -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "baget.labels" -}}
+helm.sh/chart: {{ include "baget.chart" . }}
+{{ include "baget.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "baget.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "baget.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "baget.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "baget.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create secrets name
+*/}}
+{{- define "users.secret" -}}
+{{- printf "%s-%s" "aws-sm" .Values.secretsName | trunc 63 -}}
+{{- end }}

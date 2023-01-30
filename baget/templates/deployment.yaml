@@ -19,27 +19,29 @@ spec:
         app.kubernetes.io/name: {{ include "baget.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ include "baget.serviceAccountName" . }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-          - name: APIKEY
-            value: {{ .Values.apiKey }}
-          - name: STORAGE__TYPE
-            value: {{ .Values.storage.type }}
-          - name: STORAGE__PATH
-            value: {{ .Values.storage.path }}
-          - name: STORAGE__ACCOUNTNAME
-            value: {{ .Values.storage.accountName }}
-          - name: STORAGE__CONTAINER
-            value: {{ .Values.storage.container }}
-          - name: STORAGE__ACCESSKEY
-            value: {{ .Values.storage.accessKey }}
-          - name: DATABASE__TYPE
-            value: {{ .Values.database.type }}
-          - name: DATABASE__CONNECTIONSTRING
-            value: {{ .Values.database.connectionString }}
+            - name: DATABASE__TYPE
+              value: {{ .Values.database.type }}
+            - name: DATABASE__CONNECTIONSTRING
+              value: {{ .Values.database.connectionString }}
+            - name: STORAGE__TYPE
+              value: {{ .Values.storage.type }}
+            - name: STORAGE__BUCKET
+              value: {{ .Values.storage.bucket | quote }}
+            - name: STORAGE__REGION
+              value: {{ .Values.storage.region | quote }}
+          {{- range $secret := .Values.secretsParameters }}
+            - name: {{ $secret }}
+              valueFrom:
+                secretKeyRef:
+                  name: secret-{{ $.Values.secretsName }}
+                  key: {{ $secret }}
+          {{- end }}
           ports:
             - name: http
               containerPort: 80
@@ -53,27 +55,27 @@ spec:
               path: /
               port: http
           volumeMounts:
-          - name: baget-packages
-            mountPath: {{ .Values.storage.path }}
           - name: baget-data
             mountPath: /var/baget-data
+          - name: vol-secrets
+            mountPath: /mnt/secrets
+            readOnly: true
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: baget-packages
-      {{- if .Values.persistence.bagetPackages.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "baget.fullname" . }}-packages
-      {{- else }}
-        emptyDir: {}
-      {{- end }}
-      - name: baget-data
       {{- if .Values.persistence.bagetData.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ template "baget.fullname" . }}-data
+        - name: baget-data
+          persistentVolumeClaim:
+            claimName: {{ template "baget.fullname" . }}-data
       {{- else }}
         emptyDir: {}
       {{- end }}
+        - name: vol-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: {{- include "users.secret" . | indent 1}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

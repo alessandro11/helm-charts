@@ -1,15 +1,48 @@
 apiVersion: v1
 entries:
-  baget-helm-chart:
+  baget:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-01-16T17:34:55.466795647-03:00"
-    description: A Helm chart for Kubernetes
-    digest: 6282538191ae97deab2ee9ff94e298e6e3bec7c8dde4c580368cc7002b1d1abb
+    created: "2023-01-20T15:17:56.246784668-03:00"
+    description: A lightweight NuGet and symbol server
+    digest: cd2f32d498d89a84b81a491f63cf7c5d9b317c48a6b42f3875c11573f2f5c75c
     icon: https://icons.iconarchive.com/icons/google/noto-emoji-food-drink/256/32373-baguette-bread-icon.png
-    name: baget-helm-chart
+    name: baget
     type: application
     urls:
-    - https://alessandro11.github.io/helm-charts/baget-helm-chart-1.0.0.tgz
-    version: 1.0.0
-generated: "2023-01-16T17:34:55.466375013-03:00"
+    - https://alessandro11.github.io/helm-charts/baget-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-20T15:17:56.246256105-03:00"
+    description: A lightweight NuGet and symbol server
+    digest: 402562302ae3a9e4ccef689f36e04ed14766a742ad152d5e54dbdf40732b32b5
+    icon: https://icons.iconarchive.com/icons/google/noto-emoji-food-drink/256/32373-baguette-bread-icon.png
+    name: baget
+    type: application
+    urls:
+    - https://alessandro11.github.io/helm-charts/baget-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-20T15:17:56.244859987-03:00"
+    description: A lightweight NuGet and symbol server
+    digest: 01863a500c6617d8282f99dcecb59f2a9706f0c368697688889b0a2c0bef70f7
+    icon: https://icons.iconarchive.com/icons/google/noto-emoji-food-drink/256/32373-baguette-bread-icon.png
+    name: baget
+    type: application
+    urls:
+    - https://alessandro11.github.io/helm-charts/baget-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2023-01-20T15:17:56.239104298-03:00"
+    description: A lightweight NuGet and symbol server
+    digest: fd4ed08efbf6e654116c1370e2fb705c0a62f03e4c338144a588f70339a9e169
+    icon: https://icons.iconarchive.com/icons/google/noto-emoji-food-drink/256/32373-baguette-bread-icon.png
+    name: baget
+    type: application
+    urls:
+    - https://alessandro11.github.io/helm-charts/baget-1.0.1.tgz
+    version: 1.0.1
+generated: "2023-01-20T15:17:56.218150058-03:00"

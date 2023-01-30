@@ -23,12 +23,14 @@ serviceAccount:
 
 service:
   ## Kubernetes svc type
-  ## For minikube, set this to NodePort, elsewhere use LoadBalancer
-  type: LoadBalancer
+  ## For minikube, set this to NodePort
+  type: ClusterIP
   port: 80
+  url: my-fqdn.example
 
 ingress:
-  enabled: false
+  enabled: true
+  class: nginx
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/tls-acme: "true"
@@ -37,9 +39,9 @@ ingress:
       paths: []
 
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -73,20 +75,29 @@ persistence:
     accessMode: ReadWriteOnce
   ## This volume is used to store nuget packages
   bagetPackages:
-    enabled: true
+    enabled: false
     size: 10Gi
     accessMode: ReadWriteOnce
 
 # if blank (default) no API key is required to publish NuGet packages
 apiKey: ""
 
+# TODO:
+#      Add support to either local storage or S3
+# at the moment deployment supports only S3
+#
 # where the NuGet packages will be stored
+# storage:
+#   type: "FileSystem"
+#   accountName: ""
+#   container: ""
+#   accessKey: ""
+#   path: "/var/baget-packages"
+
 storage:
-  type: "FileSystem"
-  accountName: ""
-  container: ""
-  accessKey: ""
-  path: "/var/baget-packages"
+  type: "AwsS3"
+  region: ""
+  bucket: ""
 
 # where the package index is saved
 database:
@@ -96,3 +107,4 @@ database:
 search:
   type: "Database"
 
+secretsName: "my-secret-example-name"

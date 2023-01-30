@@ -1,6 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "baget.fullname" . -}}
-apiVersion: extensions/v1beta1
+{{- $svcPort := .Values.service.port -}}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
@@ -14,7 +15,8 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ingress.tls.enabled }}
+  ingressClassName: {{ .Values.ingress.class }}
+{{- if .Values.ingress.tls }}
   tls:
   - hosts:
 {{- if .Values.service.commonName }}
@@ -28,16 +30,22 @@ spec:
       http:
         paths:
         - path: /
+          pathType: ImplementationSpecific
           backend:
-            serviceName: {{ $fullName }}
-            servicePort: http
+            service:
+              name: {{ $fullName }}
+              port:
+                number: {{ $svcPort }}
 {{- if .Values.service.commonName }}
     - host: {{ template "hostname" .Values.service.commonName }}
       http:
         paths:
         - path: /
+          pathType: ImplementationSpecific
           backend:
-            serviceName: {{ $fullName }}
-            servicePort: http
+            service:
+              name: {{ $fullName }}
+              port:
+                number: {{ $svcPort }}
 {{- end }}
 {{- end }}
