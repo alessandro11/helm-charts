@@ -25,6 +25,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name: CONSOLE__LOGLEVEL
+              value: {{ .Values.loglevel }}
             - name: DATABASE__TYPE
               value: {{ .Values.database.type }}
             - name: DATABASE__CONNECTIONSTRING
