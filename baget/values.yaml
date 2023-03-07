@@ -83,6 +83,22 @@ persistence:
 # if blank (default) no API key is required to publish NuGet packages
 apiKey: ""
 
+deployment:
+  livenessProbe:
+    path: /
+    port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    path: /
+    port: http
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 1
+
 # TODO:
 #      Add support to either local storage or S3
 # at the moment deployment supports only S3
